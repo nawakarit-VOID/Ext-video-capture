@@ -5,6 +5,7 @@
 browser.webRequest.onBeforeRequest.addListener(
   (details) => {
     //ถ้าเจอให้แสดง
+
     if (details.url.includes(".m3u8")) {
       console.log("⭐", "m3u8");
     }
@@ -29,11 +30,13 @@ browser.webRequest.onBeforeRequest.addListener(
       console.log("⭐", "KEYS");
     }
 
-    console.log({
-      type: details.type,
-      method: details.method,
+    const stream = {
       url: details.url,
-    });
+      method: details.method,
+      time: Date.now(),
+    };
+
+    console.log(stream);
   },
   {
     urls: ["<all_urls>"],
