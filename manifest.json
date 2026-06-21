@@ -1,17 +1,15 @@
 {
-  "manifest_version": 2,
-  "name": "Video Capture",
-  "version": "1.0",
-  "description": "Capture requests",
+  "manifest_version": 3,
 
-  "permissions": [
-    "webRequest",
-    "webRequestBlocking",
-    "<all_urls>"
-  ],
+  "name": "Video Capture",
+
+  "version": "1.0",
+
+  "permissions": ["webRequest"],
+
+  "host_permissions": ["<all_urls>"],
 
   "background": {
     "scripts": ["background.js"]
   }
-  
 }
