@@ -22,22 +22,15 @@ const ignore = [
 // =====================
 // Session
 // =====================
-
+//Global Variable
 let session = {
-  requestId: "", //
-  master: "", //
-  method: "", //
-  type: "", //
-
-  headers: [], //
-
-  referer: "",
-  userAgent: "",
-  origin: "",
-  cookies: "",
-
+  requestId: "", //⭐
+  master: "", //⭐
+  method: "", //⭐
+  type: "", //⭐
+  headers: [], //⭐
   tabId: 0,
-  time: 0, //
+  time: 0, //⭐
 };
 
 // =====================
@@ -81,25 +74,18 @@ function saveMaster(details) {
 function saveHeaders(details) {
   //session.headers = details.requestHeaders;
   session.headers = {};
+  //ถ้าไม่มี requestHeaders เข้ามา ให้ออกไปซะ (อี...)
+  if (!details.requestHeaders) {
+    return;
+  }
+
   for (const header of details.requestHeaders) {
+    //ปวดหัว (จุง...)
     session.headers[header.name] = header.value;
   }
   console.log(session);
 }
-/**
 
-session.headers["Referer"] = "...";
-session.headers["Origin"] = "...";
-session.headers["User-Agent"] = "...";
-
-{
-    "User-Agent": "...",
-    "Referer": "...",
-    "Origin": "...",
-    "Cookie": "..."
-}
- 
- */
 // =====================
 // Event
 // =====================
@@ -134,20 +120,15 @@ browser.webRequest.onBeforeSendHeaders.addListener(
   ["requestHeaders"],
 );
 
-/*
-background.js
+browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.type === "GET_SESSION") {
+    console.log("🔍 Sending session:", session);
 
-1. Const
-2. Session
-3. Helper Functions
-4. Event
+    sendResponse({
+      success: true,
+      session: session,
+    });
 
-background.js
-│
-├── isIgnored()
-├── isMaster()
-├── saveMaster()
-├── session
-└── onBeforeRequest()
-
-*/
+    return true; // สำคัญมาก (หรอ)
+  }
+});
