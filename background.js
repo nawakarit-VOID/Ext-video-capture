@@ -24,15 +24,20 @@ const ignore = [
 // =====================
 
 let session = {
-  master: "", //⭐//
-  method: "", //⭐//
-  type: "", //⭐//
-  headers: [],
-  cookies: "",
+  requestId: "", //
+  master: "", //
+  method: "", //
+  type: "", //
+
+  headers: [], //
+
   referer: "",
   userAgent: "",
+  origin: "",
+  cookies: "",
+
   tabId: 0,
-  time: 0, //⭐//
+  time: 0, //
 };
 
 // =====================
@@ -64,7 +69,7 @@ function isMaster(url) {
 
 function saveMaster(details) {
   //บันทึก Master
-
+  session.requestId = details.requestId;
   session.master = details.url;
   session.method = details.method;
   session.type = details.type;
@@ -73,6 +78,28 @@ function saveMaster(details) {
   console.log(session);
 }
 
+function saveHeaders(details) {
+  //session.headers = details.requestHeaders;
+  session.headers = {};
+  for (const header of details.requestHeaders) {
+    session.headers[header.name] = header.value;
+  }
+  console.log(session);
+}
+/**
+
+session.headers["Referer"] = "...";
+session.headers["Origin"] = "...";
+session.headers["User-Agent"] = "...";
+
+{
+    "User-Agent": "...",
+    "Referer": "...",
+    "Origin": "...",
+    "Cookie": "..."
+}
+ 
+ */
 // =====================
 // Event
 // =====================
@@ -91,6 +118,20 @@ browser.webRequest.onBeforeRequest.addListener(
   {
     urls: ["<all_urls>"],
   },
+);
+
+browser.webRequest.onBeforeSendHeaders.addListener(
+  (details) => {
+    if (details.requestId !== session.requestId) {
+      return;
+    }
+
+    saveHeaders(details);
+  },
+  {
+    urls: ["<all_urls>"],
+  },
+  ["requestHeaders"],
 );
 
 /*
