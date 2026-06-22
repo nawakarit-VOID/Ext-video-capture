@@ -1,6 +1,64 @@
 // Copyright (c) 2026 Nawakarit
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License v3.0.
+
+// =====================
+// Const
+// =====================
+
+const ignore = [
+  ".css",
+  ".png",
+  ".jpg",
+  ".jpeg",
+  ".gif",
+  ".svg",
+  ".woff",
+  ".woff2",
+  ".ttf",
+  ".ico",
+];
+
+// =====================
+// Session
+// =====================
+
+let session = {
+  master: "",
+  token: "",
+  time: 0,
+};
+
+// =====================
+// Helper
+// =====================
+
+function isIgnored(url) {
+  //ไม่สนใจ
+  url = url.toLowerCase();
+
+  for (const ext of ignore) {
+    if (url.includes(ext)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function isMaster(url) {}
+
+function saveMaster(url) {}
+
+// =====================
+// Event
+// =====================
+
+browser.webRequest.onBeforeRequest.addListener((details) => {}, {
+  urls: ["<all_urls>"],
+});
+
+///////อันก่อนหน้า////////////////////////////////////////////////////////////////
+/*
 let lastMaster = "";
 
 browser.webRequest.onBeforeRequest.addListener(
@@ -9,9 +67,27 @@ browser.webRequest.onBeforeRequest.addListener(
 
     lastMaster = details.url;
 
-    console.log(lastMaster);
+    console.log("⭐", lastMaster);
   },
   {
     urls: ["<all_urls>"],
   },
 );
+*/
+/*
+background.js
+
+1. Const
+2. Session
+3. Helper Functions
+4. Event
+
+background.js
+│
+├── isIgnored()
+├── isMaster()
+├── saveMaster()
+├── session
+└── onBeforeRequest()
+
+*/
