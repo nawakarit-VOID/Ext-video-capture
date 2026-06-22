@@ -24,10 +24,15 @@ const ignore = [
 // =====================
 
 let session = {
-  master: "",
-  method: "",
-  type: "",
-  time: 0,
+  master: "", //⭐//
+  method: "", //⭐//
+  type: "", //⭐//
+  headers: [],
+  cookies: "",
+  referer: "",
+  userAgent: "",
+  tabId: 0,
+  time: 0, //⭐//
 };
 
 // =====================
@@ -72,27 +77,22 @@ function saveMaster(details) {
 // Event
 // =====================
 
-browser.webRequest.onBeforeRequest.addListener((details) => {}, {
-  urls: ["<all_urls>"],
-});
-
-///////อันก่อนหน้า////////////////////////////////////////////////////////////////
-/*
-let lastMaster = "";
-
 browser.webRequest.onBeforeRequest.addListener(
   (details) => {
-    if (!details.url.includes("master.m3u8")) return;
+    //
+    if (isIgnored(details.url)) {
+      return;
+    }
 
-    lastMaster = details.url;
-
-    console.log("⭐", lastMaster);
+    if (isMaster(details.url)) {
+      saveMaster(details);
+    }
   },
   {
     urls: ["<all_urls>"],
   },
 );
-*/
+
 /*
 background.js
 
