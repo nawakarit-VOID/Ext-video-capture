@@ -45,7 +45,16 @@ function isIgnored(url) {
   return false;
 }
 
-function isMaster(url) {}
+function isMaster(url) {
+  //หา Master
+  url = url.toLowerCase();
+  //หรือ return url.toLowerCase().includes("master.m3u8");
+  if (url.includes("master.m3u8")) {
+    //console.log("⭐", "MASTER");
+    return true;
+  }
+  return false;
+}
 
 function saveMaster(url) {}
 
