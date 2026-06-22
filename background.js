@@ -25,7 +25,8 @@ const ignore = [
 
 let session = {
   master: "",
-  token: "",
+  method: "",
+  type: "",
   time: 0,
 };
 
@@ -50,13 +51,22 @@ function isMaster(url) {
   url = url.toLowerCase();
   //หรือ return url.toLowerCase().includes("master.m3u8");
   if (url.includes("master.m3u8")) {
-    //console.log("⭐", "MASTER");
+    console.log("⭐", "MASTER");
     return true;
   }
   return false;
 }
 
-function saveMaster(url) {}
+function saveMaster(details) {
+  //บันทึก Master
+
+  session.master = details.url;
+  session.method = details.method;
+  session.type = details.type;
+  session.time = Date.now();
+
+  console.log(session);
+}
 
 // =====================
 // Event
